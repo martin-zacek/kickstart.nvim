@@ -210,7 +210,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -224,12 +224,12 @@ vim.o.hlsearch = false
 vim.wo.number = true
 
 -- Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse = 'a' -- normal mode only to enable terminal middle button copying 
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -525,3 +525,49 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+--
+-------------------------------------------------------------------------------
+-- settings Martin
+-------------------------------------------------------------------------------
+
+vim.o.mouse = 'n'
+vim.opt.cursorline = true
+
+
+local TB = require('telescope.builtin')
+local km = vim.keymap.set
+km('n', 'ff', TB.find_files, { desc = '[f]ind [f]iles' })
+km('n', 'fg', TB.live_grep, { desc = '[f]ind by rip [g]rep' })
+km('n', 'fb', TB.buffers, { desc = '[f]ind buffers' })
+km('n', 'fr', TB.registers, { desc = '[f]ind registers' })
+km('n', 'fh', TB.help_tags, { desc = '[f]ind [h]elp' })
+km('n', 'fw', TB.grep_string, { desc = '[f]ind current [w]ord' })
+km('n', 'fc', TB.command_history, { desc = '[f]ind [c]ommand hist' })
+km('n', 'fo', TB.oldfiles, { desc = '[f]ind [o]ld files' })
+km('n', 'fm', TB.man_pages, { desc = '[f]ind [m]an pages' })
+km('n', 'fv', TB.vim_options, { desc = '[f]ind [v]im options' })
+km('n', 'fl', TB.spell_suggest, { desc = '[f]ind spe[l] suggest' })
+km('n', 'fk', TB.keymaps, { desc = '[f]ind [k]eymaps' })
+km('n', 'fz', TB.current_buffer_fuzzy_find,
+  { desc = '[f]ind fu[z]zy' })
+km('n', 'fi', TB.builtin, { desc = '[f]ind builtin' })
+km('n', 'fs', TB.symbols, { desc = '[f]ind symbols' })
+km("n", "fx",
+  "<cmd>lua require('telescope.builtin').symbols{sources = {'latex'}}<CR>",
+  { desc = '[f]ind late[x] symbols' })
+km("n", "fa",
+  "<cmd>lua require('telescope.builtin').symbols{sources = {'math'}}<CR>",
+  { desc = '[f]ind m[a]th symbols' })
+km("n", "fe",
+  "<cmd>lua require('telescope.builtin').symbols{sources = {'emoji'}}<CR>",
+  { desc = '[f]ind [e]moji symbols' })
+
+local wk = require("which-key")
+wk.register({
+  f = {
+      name = "Find by Telescope",
+      --f = { "<cmd>lua require('telescope.builtin').find_files<CR>", "files" },
+  },
+})
+
